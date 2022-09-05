@@ -37,7 +37,7 @@ import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 
 const $q = useQuasar();
-
+console.log(process.env.APP_ID);
 const router = useRouter();
 const data = ref({});
 const signInExistingUser = () => {
