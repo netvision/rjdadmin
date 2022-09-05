@@ -12,6 +12,7 @@ const { configure } = require("quasar/wrappers");
 const envparsers = require("./src/config/envparser");
 
 module.exports = configure(function (/* ctx */) {
+  require("dotenv").config();
   return {
     eslint: {
       // fix: true,
@@ -53,7 +54,9 @@ module.exports = configure(function (/* ctx */) {
         browser: ["es2019", "edge88", "firefox78", "chrome87", "safari13.1"],
         node: "node16",
       },
-      env: envparsers(),
+      env: {
+        API_KEY: process.env.API_KEY,
+      },
       vueRouterMode: "history", // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
