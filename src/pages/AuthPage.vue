@@ -32,20 +32,22 @@
 <script setup>
 import { ref } from "vue";
 import { auth } from "../boot/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 
 const $q = useQuasar();
-console.log(process.env.APP_ID);
 const router = useRouter();
 const data = ref({});
+onAuthStateChanged(auth, (user) => {
+  if (user) router.push("/admin/home");
+});
 const signInExistingUser = () => {
   signInWithEmailAndPassword(auth, data.value.email, data.value.password)
     .then((userCredential) => {
       //console.log(userCredential.user);
       $q.notify({ message: "Sign In Success." });
-      router.push("/home");
+      router.push("/admin/home");
     })
     .catch((error) => {
       console.log(error);

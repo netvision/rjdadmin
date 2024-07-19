@@ -3,9 +3,20 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
+      { path: "", component: () => import("pages/IndexPage.vue") },
+      {
+        path: "/contact",
+        component: () => import("src/pages/ContactPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    component: () => import("layouts/AdminLayout.vue"),
+    children: [
       { path: "", component: () => import("pages/AuthPage.vue") },
       {
-        path: "/home",
+        path: "home",
         component: () => import("src/pages/HomePage.vue"),
         meta: { requiresAuth: true },
       },

@@ -40,7 +40,7 @@ export default route(function (/* { store, ssrContext } */) {
       getAuth(),
       (user) => {
         if (au && !user) {
-          next("/");
+          next("/admin/login");
         } else next();
       },
       (error) => {
