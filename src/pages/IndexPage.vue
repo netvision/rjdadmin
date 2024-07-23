@@ -133,7 +133,6 @@ onMounted(async () => {
           </tr>
         </tbody>
       </q-markup-table>
-      <pre>{{ markers }}</pre>
     </div>
   </div>
   <div class="q-pa-md">
