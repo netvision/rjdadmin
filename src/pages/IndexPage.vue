@@ -1,3 +1,160 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import { GoogleMap, Marker, InfoWindow } from "vue3-google-map";
+import { api } from "../boot/axios.js";
+import { Vue3Marquee } from "vue3-marquee";
+
+const slide = ref("slide1");
+const mapApi = process.env.MAP_KEY;
+const center = { lat: 28.235773, lng: 75.651802 };
+const activities = ref([]);
+const villages = ref([]);
+const markers = ref([]);
+
+onMounted(async () => {
+  activities.value = await api
+    .get("/activities?expand=records")
+    .then((r) => r.data);
+
+  villages.value = await api
+    .get("/villages?expand=records")
+    .then((r) => r.data);
+
+  villages.value.forEach((v) => {
+    let mark = {
+      position: { lat: +v.latitude, lng: +v.longitude },
+      title: v.name,
+    };
+    markers.value.push(mark);
+  });
+});
+</script>
+
 <template>
-  <h2>Index</h2>
+  <div>
+    <q-carousel
+      v-model="slide"
+      transition-prev="scale"
+      transition-next="scale"
+      swipeable
+      animated
+      infinite
+      autoplay
+      control-color="white"
+      arrows
+      height="500px"
+      class="bg-primary text-white shadow-1 rounded-borders"
+    >
+      <q-carousel-slide name="slide1" class="column no-wrap flex-center">
+        <q-img src="/images/slide1.jpg" />
+      </q-carousel-slide>
+      <q-carousel-slide name="slide2" class="column no-wrap flex-center">
+        <q-img src="/images/slide2.jpg" />
+      </q-carousel-slide>
+      <q-carousel-slide name="slide3" class="column no-wrap flex-center">
+        <q-img src="/images/slide3.jpg" />
+      </q-carousel-slide>
+      <q-carousel-slide name="slide4" class="column no-wrap flex-center">
+        <q-img src="/images/slide4.jpg" />
+      </q-carousel-slide>
+      <q-carousel-slide name="slide5" class="column no-wrap flex-center">
+        <q-img src="/images/slide5.jpg" />
+      </q-carousel-slide>
+    </q-carousel>
+  </div>
+
+  <div class="q-pa-md text-body1 merriweather-regular text-justify">
+    <p>
+      <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong>Established in
+      the year 2004, The RJDSS is an initiative by the Dalmia Group targeted at
+      the rural development of Chirawa. We are currently working with 55000
+      people across 88 villages with a vision to bring “खुशहाली” with Equity,
+      Harmony and Prosperity in Chirawa block of Jhunjhunu District of
+      Shekhawati Region. In the last 14 years the areas of interventions were;
+      drinking water, agriculture and livestock, sustainable use of natural
+      resources, women’s empowerment, youth development and addressing various
+      other social issues.
+    </p>
+    <p>
+      Since water is a scarce resource in the region RJDSS major interventions
+      were in the water sector, with the broad objective of ensuring safe and
+      sustainable supply of drinking water by adopting Integrated Water Resource
+      Management Approach. Water conservation and promotion of total sanitation
+      in the villages has been successfully achieved in 15 villages and that was
+      acclaimed nationally by awards (at different level by different
+      organisations).
+    </p>
+    <p>
+      The basic approach of the trust is to empower rural communities, revive
+      their traditions of water conservation and rainwater harvesting by
+      rehabilitating the older structures using modern scientific knowledge and
+      technology in order to provide drinking water security in all climatic
+      conditions.
+    </p>
+  </div>
+  <div class="row q-gutter-sm">
+    <div class="col q-pa-md">
+      <div class="text-h5 text-left q-pa-sm">
+        Google Map Representation of our activities
+      </div>
+      <GoogleMap
+        :api-key="mapApi"
+        style="width: 100%; height: 650px"
+        :center="center"
+        :zoom="11"
+      >
+        <Marker
+          :options="{
+            position: center,
+            title: 'Ramkrishna Jaidayal Dalmia Seva Sansthan',
+          }"
+        />
+        <Marker
+          v-for="(mark, i) in markers"
+          :key="i"
+          :options="{
+            position: mark.position,
+            title: mark.title,
+          }"
+        >
+          <InfoWindow>
+            <h5>{{ mark.title }}</h5>
+          </InfoWindow>
+        </Marker>
+      </GoogleMap>
+    </div>
+    <div class="col q-pa-md">
+      <div class="text-h5 text-left q-pa-sm">Activities Summery</div>
+      <q-markup-table class="q-mr-md">
+        <tbody>
+          <tr v-for="act in activities" :key="act.id">
+            <td>{{ act.title }}</td>
+            <td>{{ act.records.length }}</td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+      <pre>{{ markers }}</pre>
+    </div>
+  </div>
+  <div class="q-pa-md">
+    <h3 class="title">Some of Our Collaborators</h3>
+    <Vue3Marquee clone>
+      <img height="150" src="/images/dst2.jpg" />
+      <img height="150" src="/images/ceeri.jpg" />
+      <img height="150" src="/images/NABARD_logo.png" />
+      <img height="150" src="/images/ceds.jpg" />
+      <img height="150" src="/images/ground-water.jpg" />
+      <img height="150" src="/images/doa-rajasthan.jpg" />
+      <img height="150" src="/images/kscst_eng_logo.jpg" />
+      <img height="150" src="/images/mnit.jpg" />
+      <img height="150" src="/images/PHED-Logo.jpg" />
+      <img height="150" src="/images/uor-logo.jpg" />
+    </Vue3Marquee>
+  </div>
 </template>
+<style>
+.img-responsive {
+  width: 100%;
+  height: auto;
+}
+</style>
