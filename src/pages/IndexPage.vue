@@ -11,6 +11,10 @@ const activities = ref([]);
 const villages = ref([]);
 const markers = ref([]);
 
+const getActName = (id) => {
+  return activities.value.filter((act) => act.id == id)[0].title;
+};
+
 onMounted(async () => {
   activities.value = await api
     .get("/activities?expand=records")
@@ -21,9 +25,16 @@ onMounted(async () => {
     .then((r) => r.data);
 
   villages.value.forEach((v) => {
+    let records = v.records.reduce((acc, rec) => {
+      if (acc[rec.activity_id]) {
+        acc[rec.activity_id] += 1;
+      } else acc[rec.activity_id] = 1;
+      return acc;
+    }, {});
     let mark = {
       position: { lat: +v.latitude, lng: +v.longitude },
       title: v.name,
+      records: records,
     };
     markers.value.push(mark);
   });
@@ -119,6 +130,16 @@ onMounted(async () => {
         >
           <InfoWindow>
             <h5>{{ mark.title }}</h5>
+            <div>
+              <q-markup-table class="q-ma-md">
+                <tbody>
+                  <tr v-for="(value, key) in mark.records" :key="key">
+                    <td>{{ getActName(key) }}</td>
+                    <td>{{ value }}</td>
+                  </tr>
+                </tbody>
+              </q-markup-table>
+            </div>
           </InfoWindow>
         </Marker>
       </GoogleMap>

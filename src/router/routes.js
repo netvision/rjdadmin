@@ -8,6 +8,10 @@ const routes = [
         path: "contact",
         component: () => import("src/pages/ContactPage.vue"),
       },
+      {
+        path: "about",
+        component: () => import("src/pages/AboutPage.vue"),
+      },
     ],
   },
   {

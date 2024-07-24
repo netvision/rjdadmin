@@ -16,7 +16,7 @@
           <q-space />
           <q-btn stretch flat icon="home" to="/" />
           <q-separator dark vertical />
-          <q-btn flat stretch label="About Us" />
+          <q-btn flat stretch label="About Us" to="about" />
           <q-separator dark vertical />
           <q-btn stretch flat label="Collaborators" />
           <q-separator dark vertical />
@@ -68,7 +68,9 @@
       </div>
     </q-page-container>
     <q-footer reveal class="bg-white">
-      <div class="bg-blue-3 text-center q-pa-md">&copy; RKJDSS, Chirawa</div>
+      <div class="bg-blue-3 text-center q-pa-md">
+        &copy; RKJDSS, Chirawa <q-btn stretch flat icon="login" to="/admin" />
+      </div>
     </q-footer>
   </q-layout>
 </template>
