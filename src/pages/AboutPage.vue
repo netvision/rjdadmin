@@ -45,68 +45,159 @@ const achievements = [
 ];
 </script>
 <template>
-  <div class="text-h5 text-left q-pa-sm">About Us</div>
-  <div class="row">
-    <div class="col-8">
-      <div class="text-h5 text-left q-pa-sm">An Introduction</div>
-      <div class="q-pa-md text-body1 merriweather-regular text-justify">
-        <p>
-          <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong>Established
-          in the year 2004, The RJDSS is an initiative by the Dalmia Group
-          targeted at the rural development of Chirawa. We are currently working
-          with 55000 people across 88 villages with a vision to bring “खुशहाली”
-          with Equity, Harmony and Prosperity in Chirawa block of Jhunjhunu
-          District of Shekhawati Region. In the last 14 years the areas of
-          interventions were; drinking water, agriculture and livestock,
-          sustainable use of natural resources, women’s empowerment, youth
-          development and addressing various other social issues.
-        </p>
-        <p>
-          Since water is a scarce resource in the region RJDSS major
-          interventions were in the water sector, with the broad objective of
-          ensuring safe and sustainable supply of drinking water by adopting
-          Integrated Water Resource Management Approach. Water conservation and
-          promotion of total sanitation in the villages has been successfully
-          achieved in 15 villages and that was acclaimed nationally by awards
-          (at different level by different organisations).
-        </p>
-        <p>
-          The basic approach of the trust is to empower rural communities,
-          revive their traditions of water conservation and rainwater harvesting
-          by rehabilitating the older structures using modern scientific
-          knowledge and technology in order to provide drinking water security
-          in all climatic conditions.
-        </p>
+  <div class="container">
+    <div class="text-h4 text-left q-pa-sm">An Introduction</div>
+    <div class="q-pa-md text-body1 merriweather-regular text-justify">
+      <p>
+        <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong>Established in
+        the year 2004, The RJDSS is an initiative by the Dalmia Group targeted
+        at the rural development of Chirawa. We are currently working with 55000
+        people across 88 villages with a vision to bring “खुशहाली” with Equity,
+        Harmony and Prosperity in Chirawa block of Jhunjhunu District of
+        Shekhawati Region. In the last 14 years the areas of interventions were;
+        drinking water, agriculture and livestock, sustainable use of natural
+        resources, women’s empowerment, youth development and addressing various
+        other social issues.
+      </p>
+      <p>
+        Since water is a scarce resource in the region RJDSS major interventions
+        were in the water sector, with the broad objective of ensuring safe and
+        sustainable supply of drinking water by adopting Integrated Water
+        Resource Management Approach. Water conservation and promotion of total
+        sanitation in the villages has been successfully achieved in 15 villages
+        and that was acclaimed nationally by awards (at different level by
+        different organisations).
+      </p>
+      <p>
+        The basic approach of the trust is to empower rural communities, revive
+        their traditions of water conservation and rainwater harvesting by
+        rehabilitating the older structures using modern scientific knowledge
+        and technology in order to provide drinking water security in all
+        climatic conditions.
+      </p>
+    </div>
+
+    <div class="text-h5 text-left q-pa-sm">Trustees</div>
+    <div class="row q-gutter-md q-px-sm">
+      <div class="col">
+        <q-card class="my-card">
+          <img src="/images/rh.jpg" style="height: 250px" />
+
+          <q-card-section>
+            <div class="text-h6">Shri Raghu Hari Dalmia</div>
+            <div class="text-subtitle2"></div>
+          </q-card-section>
+        </q-card>
       </div>
-      <div class="text-h5 merriweather-regular text-left q-px-sm">
-        SOME OF OUR KEY ACHIEVEMENTS
+      <div class="col">
+        <q-card class="my-card">
+          <img src="/images/abh.jpg" style="height: 250px" />
+
+          <q-card-section>
+            <div class="text-h6">Shri Abhishek Dalmia</div>
+            <div class="text-subtitle2"></div>
+          </q-card-section>
+        </q-card>
       </div>
-      <div class="text-body1 merriweather-regular text-left q-px-sm q-mb-md">
-        <q-list
-          bordered
-          class="q-mb-md"
-          v-for="(act, i) in achievements"
-          :key="i"
-        >
-          <q-item>
-            <div class="text-h5 merriweather-regular text-left q-px-sm">
-              {{ act.activity }}
-            </div>
-          </q-item>
-          <q-item>
-            <q-list separator>
-              <q-item v-for="(cont, i) in act.content" :key="i">
-                <q-item-section>
-                  {{ cont }}
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-item>
-        </q-list>
+
+      <div class="col">
+        <q-card class="my-card">
+          <div style="height: 250px">&nbsp;</div>
+          <q-card-section>
+            <div class="text-h6">Shri Chaitanya Dalmia</div>
+            <div class="text-subtitle2"></div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col">
+        <q-card class="my-card">
+          <img src="/images/vr.jpg" style="height: 250px" />
+
+          <q-card-section>
+            <div class="text-h6">Shri Vikas Rastogi</div>
+            <div class="text-subtitle2"></div>
+          </q-card-section>
+        </q-card>
       </div>
     </div>
-    <div class="col-4">
-      <div class="text-h5 text-left q-pa-sm">Trustees</div>
+
+    <div class="text-h5 text-left q-pa-sm">Advisory Council</div>
+    <div class="row q-gutter-md q-px-sm">
+      <div class="col">
+        <q-card class="my-card">
+          <img src="/images/rajendrasingh.jpg" style="height: 250px" />
+
+          <q-card-section>
+            <div class="text-h6">Shri Rajendra Singh</div>
+            <div class="text-subtitle2">President, Rastriya Jal Biradari</div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col">
+        <q-card class="my-card">
+          <img src="/images/msrathore.jpg" style="height: 250px" />
+
+          <q-card-section>
+            <div class="text-h6">Prof. M.S.Rathore</div>
+            <div class="text-subtitle2">
+              Director, Center for Environment and Development Studies, Jaipur
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <div class="col">
+        <q-card class="my-card">
+          <img src="/images/niranjan.jpg" style="height: 250px" />
+          <q-card-section>
+            <div class="text-h6">Shri Niranjan Singh</div>
+            <div class="text-subtitle2">
+              Secretary, Samgra Vikas Sansthan, Jhunjhunu
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col">
+        <q-card class="my-card">
+          <img src="/images/hanuman.jpg" style="height: 250px" />
+
+          <q-card-section>
+            <div class="text-h6">Dr. Hanuman Prasad</div>
+            <div class="text-subtitle2">
+              Former Director (Edu. Ext.), Swami Keshvanand Agriculture
+              University, Bikaner
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
+
+    <div class="text-h5 merriweather-regular text-left q-px-sm">
+      SOME OF OUR KEY ACHIEVEMENTS
+    </div>
+    <div class="text-body1 merriweather-regular text-left q-px-sm q-mb-md">
+      <q-list class="q-mb-md" v-for="(act, i) in achievements" :key="i">
+        <q-item>
+          <div class="text-h5 merriweather-regular text-left q-px-sm">
+            {{ act.activity }}
+          </div>
+        </q-item>
+        <q-item>
+          <q-list separator>
+            <q-item v-for="(cont, i) in act.content" :key="i">
+              <q-item-section>
+                {{ cont }}
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-item>
+      </q-list>
     </div>
   </div>
 </template>
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 350px
+  margin: 10px
+</style>

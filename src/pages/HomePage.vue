@@ -1,97 +1,9 @@
-<template>
-  <q-page>
-    <div class="flex flex-center q-pa-md">
-      <q-select
-        filled
-        label="Select village"
-        v-model="village"
-        :options="villageOptions"
-        option-value="id"
-        option-label="name"
-        use-input
-        @filter="filterFn"
-        @update:model-value="getRecords"
-        option-disable="inactive"
-        style="min-width: 250px; max-width: 300px"
-      />
-    </div>
-    <div class="row q-gutter-xl">
-      <div class="col-4">
-        <q-list v-if="activities" class="q-pa-md">
-          <q-item
-            clickable
-            v-ripple
-            v-for="act in activities"
-            :key="act.id"
-            @click="getActRec(act)"
-          >
-            <q-item-section>{{ act.title }} </q-item-section
-            ><q-badge color="green" align="top">{{ act.total }}</q-badge>
-          </q-item>
-        </q-list>
-      </div>
-      <div class="col">
-        <h5 class="text-h5 q-py-xs" v-if="village">
-          {{ village.name }}
-        </h5>
-        <h6 class="text-h6 q-py-xs" v-if="activity.title">
-          {{ activity.title
-          }}<span class="q-px-md"
-            ><q-btn flat @click="addRecord()" icon="add"></q-btn
-          ></span>
-        </h6>
-        <div v-if="activity.title">
-          <div v-if="actRec.length > 0" class="q-pa-md">
-            <q-list>
-              <q-item
-                clickable
-                v-for="(rec, i) in actRec"
-                :key="i"
-                @click="openRecModal(rec)"
-              >
-                {{ i + 1 }}.{{ rec.location }}
-              </q-item>
-            </q-list>
-          </div>
-          <div v-else>
-            <p>
-              No Records found! <br />
-              <q-btn flat @click="addRecord()">Add new!</q-btn>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <q-dialog v-model="recModal">
-      <q-card class="q-pa-md" style="width: 60%">
-        <h6 class="text-h6">
-          <span v-if="theRecord.id">Edit</span><span v-else>Add</span> Record
-        </h6>
-        <q-input type="text" label="location" v-model="theRecord.location" />
-        <q-input
-          v-for="(d, i) in theRecord.jsonData"
-          :key="i"
-          type="text"
-          :label="d.k"
-          v-model="d.v"
-        />
-        <q-card-actions>
-          <q-btn flat color="dark" label="close" @click="closeRecModal()" />
-          <q-btn flat color="primary" label="save" @click="saveRec()" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  </q-page>
-</template>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import { api } from "../boot/axios";
 import { useQuasar } from "quasar";
-import { useRouter, useRoute } from "vue-router";
 
 const $q = useQuasar();
-const router = useRouter();
 const villages = ref([]);
 const village = ref();
 const villageOptions = ref([]);
@@ -225,8 +137,108 @@ const saveRec = async () => {
   recModal.value = false;
 };
 
+const imgPlaceholder = (e) => (e.target.src = "/images/image.png");
+
 onMounted(async () => {
   villages.value = await api.get("/villages?sort=name").then((r) => r.data);
   villageOptions.value = villages.value;
 });
 </script>
+
+<template>
+  <q-page>
+    <div class="flex flex-center q-pa-md">
+      <q-select
+        filled
+        label="Select village"
+        v-model="village"
+        :options="villageOptions"
+        option-value="id"
+        option-label="name"
+        use-input
+        @filter="filterFn"
+        @update:model-value="getRecords"
+        option-disable="inactive"
+        style="min-width: 250px; max-width: 300px"
+      />
+    </div>
+    <div class="row q-gutter-xl">
+      <div class="col-4">
+        <q-list v-if="activities" class="q-pa-md">
+          <q-item
+            clickable
+            v-ripple
+            v-for="act in activities"
+            :key="act.id"
+            @click="getActRec(act)"
+          >
+            <q-item-section>{{ act.title }} </q-item-section
+            ><q-badge color="green" align="top">{{ act.total }}</q-badge>
+          </q-item>
+        </q-list>
+      </div>
+      <div class="col">
+        <h5 class="text-h5 q-py-xs" v-if="village">
+          {{ village.name }}
+        </h5>
+        <h6 class="text-h6 q-py-xs" v-if="activity.title">
+          {{ activity.title
+          }}<span class="q-px-md"
+            ><q-btn flat @click="addRecord()" icon="add"></q-btn
+          ></span>
+        </h6>
+        <div v-if="activity.title">
+          <div v-if="actRec.length > 0" class="q-pa-md">
+            <q-list>
+              <q-item
+                clickable
+                v-for="(rec, i) in actRec"
+                :key="i"
+                @click="openRecModal(rec)"
+              >
+                <q-item-section thumbnail>
+                  <img
+                    :src="`https://api2.dalmiatrusts.in/activity-images/act-${rec.id}.jpg`"
+                    @error="imgPlaceholder"
+                  />
+                </q-item-section>
+                <q-item-section>{{ rec }}</q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+          <div v-else>
+            <p>
+              No Records found! <br />
+              <q-btn flat @click="addRecord()">Add new!</q-btn>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <q-dialog v-model="recModal">
+      <q-card class="q-pa-md" style="width: 60%">
+        <h6 class="text-h6">
+          <span v-if="theRecord.id">Edit</span><span v-else>Add</span> Record
+        </h6>
+        <img
+          v-if="theRecord.id"
+          :src="`https://api2.dalmiatrusts.in/activity-images/act-${theRecord.id}.jpg`"
+          @error="imgPlaceholder"
+          style="width: 150px; height: auto"
+        />
+        <q-input type="text" label="location" v-model="theRecord.location" />
+        <q-input
+          v-for="(d, i) in theRecord.jsonData"
+          :key="i"
+          type="text"
+          :label="d.k"
+          v-model="d.v"
+        />
+        <q-card-actions>
+          <q-btn flat color="dark" label="close" @click="closeRecModal()" />
+          <q-btn flat color="primary" label="save" @click="saveRec()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+  </q-page>
+</template>

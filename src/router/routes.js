@@ -12,6 +12,22 @@ const routes = [
         path: "about",
         component: () => import("src/pages/AboutPage.vue"),
       },
+      {
+        path: "collaborators",
+        component: () => import("src/pages/CollaboratorsPage.vue"),
+      },
+      {
+        path: "activities",
+        component: () => import("src/pages/ActivitiesPage.vue"),
+      },
+      {
+        path: "villages",
+        component: () => import("src/pages/VillagesPage.vue"),
+      },
+      {
+        path: "reports",
+        component: () => import("src/pages/ReportsPage.vue"),
+      },
     ],
   },
   {

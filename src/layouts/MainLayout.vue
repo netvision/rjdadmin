@@ -1,3 +1,16 @@
+<script setup>
+const openPdf = (file) => {
+  const url = `https://api2.dalmiatrusts.in/reports/${file}`;
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.download = file; // The name of the file after download
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+</script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header reveal elevated>
@@ -18,15 +31,97 @@
           <q-separator dark vertical />
           <q-btn flat stretch label="About Us" to="about" />
           <q-separator dark vertical />
-          <q-btn stretch flat label="Collaborators" />
+          <q-btn stretch flat label="Collaborators" to="collaborators" />
           <q-separator dark vertical />
-          <q-btn stretch flat label="Activities" />
+          <q-btn stretch flat label="Activities" to="activities" />
           <q-separator dark vertical />
-          <q-btn stretch flat label="Village Profiles" />
+          <q-btn stretch flat label="Village Profiles" to="villages" />
           <q-separator dark vertical />
-          <q-btn stretch flat label="Reports" />
-          <q-separator dark vertical />
-          <q-btn stretch flat label="Contact" to="contact" />
+          <q-btn-dropdown stretch flat label="Reports">
+            <q-list>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('General-Report-till-2015.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>General Report upto 2015</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual Report 2015-2016.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report upto 2015-16</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual Report 2016-2017.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report upto 2016-17</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual Report 2017-2018.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report upto 2017-18</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual-Report-2018-19.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report upto 2018-19</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual-Report-2019-20.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report upto 2019-20</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual-Report-2020-21.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report upto 2020-21</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual-Report-2021-22.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report upto 2021-22</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual-report-2022-23.pdf')"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report upto 2022-23</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
         </q-toolbar>
       </div>
     </q-header>
