@@ -11,3 +11,42 @@ body {
 p {
   font-size: 18px;
 }
+
+.title1 {
+  font-size: 55px;
+  font-weight: 600;
+  background-image: linear-gradient(to left, #553c9a, #b393d3);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.title1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 0;
+  left: 5%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+
+.title2 {
+  font-size: 25px;
+  font-weight: 600;
+  background-image: linear-gradient(to left, #553c9a, #b393d3);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.title3 {
+  font-size: 20px;
+  font-weight: 600;
+  background-image: linear-gradient(to right, #553c9a, #b393d3);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}

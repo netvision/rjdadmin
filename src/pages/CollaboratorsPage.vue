@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="text-h4 text-left q-pa-sm">Collaborators</div>
+    <div class="title1 text-left q-pa-sm">Collaborators</div>
     <q-list>
       <q-item clickable v-ripple>
         <q-item-section avatar>

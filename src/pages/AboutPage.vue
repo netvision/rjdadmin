@@ -46,18 +46,18 @@ const achievements = [
 </script>
 <template>
   <div class="container">
-    <div class="text-h4 text-left q-pa-sm">An Introduction</div>
+    <div class="title1 text-left q-pa-sm">An Introduction</div>
     <div class="q-pa-md text-body1 merriweather-regular text-justify">
       <p>
-        <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong>Established in
-        the year 2004, The RJDSS is an initiative by the Dalmia Group targeted
-        at the rural development of Chirawa. We are currently working with 55000
-        people across 88 villages with a vision to bring “खुशहाली” with Equity,
-        Harmony and Prosperity in Chirawa block of Jhunjhunu District of
-        Shekhawati Region. In the last 14 years the areas of interventions were;
-        drinking water, agriculture and livestock, sustainable use of natural
-        resources, women’s empowerment, youth development and addressing various
-        other social issues.
+        Established in the year 2004, The
+        <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong> is an
+        initiative by the Dalmia Group targeted at the rural development of
+        Chirawa. We are currently working with 55000 people across 88 villages
+        with a vision to bring “खुशहाली” with Equity, Harmony and Prosperity in
+        Chirawa block of Jhunjhunu District of Shekhawati Region. In the last 14
+        years the areas of interventions were; drinking water, agriculture and
+        livestock, sustainable use of natural resources, women’s empowerment,
+        youth development and addressing various other social issues.
       </p>
       <p>
         Since water is a scarce resource in the region RJDSS major interventions
@@ -77,7 +77,7 @@ const achievements = [
       </p>
     </div>
 
-    <div class="text-h5 text-left q-pa-sm">Trustees</div>
+    <div class="title2 text-left q-pa-sm">Trustees</div>
     <div class="row q-gutter-md q-px-sm">
       <div class="col">
         <q-card class="my-card">
@@ -121,7 +121,7 @@ const achievements = [
       </div>
     </div>
 
-    <div class="text-h5 text-left q-pa-sm">Advisory Council</div>
+    <div class="title2 text-left q-pa-sm">Advisory Council</div>
     <div class="row q-gutter-md q-px-sm">
       <div class="col">
         <q-card class="my-card">
@@ -172,13 +172,11 @@ const achievements = [
       </div>
     </div>
 
-    <div class="text-h5 merriweather-regular text-left q-px-sm">
-      SOME OF OUR KEY ACHIEVEMENTS
-    </div>
+    <div class="title2 text-left q-px-sm">SOME OF OUR KEY ACHIEVEMENTS</div>
     <div class="text-body1 merriweather-regular text-left q-px-sm q-mb-md">
       <q-list class="q-mb-md" v-for="(act, i) in achievements" :key="i">
         <q-item>
-          <div class="text-h5 merriweather-regular text-left q-px-sm">
+          <div class="title3 merriweather-regular text-left q-px-sm">
             {{ act.activity }}
           </div>
         </q-item>

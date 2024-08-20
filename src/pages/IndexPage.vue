@@ -107,7 +107,7 @@ onMounted(async () => {
     </div>
     <div class="row q-gutter-sm">
       <div class="col q-pa-md">
-        <div class="text-h4 text-left q-pa-sm">Activities Summery</div>
+        <div class="title2 text-left q-pa-sm">Activities Summery</div>
         <q-markup-table class="q-mr-md">
           <tbody>
             <tr v-for="act in activities" :key="act.id">
@@ -120,9 +120,7 @@ onMounted(async () => {
         </q-markup-table>
       </div>
       <div class="col q-pa-md">
-        <div class="text-h4 text-left q-pa-sm">
-          Our activities on Google Map
-        </div>
+        <div class="title2 text-left q-pa-sm">Our activities on Google Map</div>
         <GoogleMap
           :api-key="mapApi"
           style="width: 100%; height: 350px"
@@ -161,7 +159,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="q-pa-md">
-      <h3 class="text-h4">Some of Our Collaborators</h3>
+      <h3 class="title2">Some of Our Collaborators</h3>
       <Vue3Marquee clone>
         <img height="150" src="/images/dst2.jpg" />
         <img height="150" src="/images/ceeri.jpg" />
@@ -177,7 +175,8 @@ onMounted(async () => {
     </div>
   </div>
 </template>
-<style>
+
+<style scoped>
 .img-responsive {
   width: 100%;
   height: auto;

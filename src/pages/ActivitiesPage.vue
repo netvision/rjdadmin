@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="text-h4 text-left q-pa-sm">Activities</div>
-    <div class="text-h5 text-left q-pa-sm">Rooftop Rain Water Harvesting</div>
+    <div class="title1 text-left q-pa-md q-my-md">Activities</div>
+    <div class="title2 text-left q-pa-sm">Rooftop Rain Water Harvesting</div>
     <div class="q-pa-sm">
       <p>
         The drinking water quality in a part of Chirawa Panchayat Samiti is not
@@ -28,7 +28,7 @@
         harvesting systems in 88 villages.
       </p>
     </div>
-    <div class="text-h5 text-left q-pa-sm">
+    <div class="title2 text-left q-pa-sm">
       Recharge well - Village Rainwater Harvesting System
     </div>
     <div class="q-pa-sm">
@@ -51,7 +51,7 @@
         sansthan has revived or developed around 128 Recharge Wells.
       </p>
     </div>
-    <div class="text-h5 text-left q-pa-sm">Integrated Farming System</div>
+    <div class="title2 text-left q-pa-sm">Integrated Farming System</div>
     <div class="q-pa-sm">
       <p>
         Sustained increase in productivity of rain fed agricultural by promoting
@@ -96,7 +96,7 @@
         villages for faster adoption of our recommendations.
       </p>
     </div>
-    <div class="text-h5 text-left q-pa-sm">Clean Village Program</div>
+    <div class="title2 text-left q-pa-sm">Clean Village Program</div>
     <div class="q-pa-sm">
       <p>
         It includes Individual Hygiene, Kitchen and house Hygiene, Disposal of
@@ -104,7 +104,7 @@
         animal excreta, Safe use of drinking water and Management for disposal
         of waste water.
       </p>
-      <h4 class="text-h5">Toilet Construction</h4>
+      <h4 class="title3 text-italic">Toilet Construction</h4>
       <p>
         Poorest of the poor of the society has been target for construction of
         toilets. This is the most vulnerable section of the society and their
@@ -114,7 +114,7 @@
         well as social security for women. This is an important activity by
         which hygiene at house and as well as at village could be maintained.
       </p>
-      <h4 class="text-h5">Soakpit Construction</h4>
+      <h4 class="title3 text-italic">Soakpit Construction</h4>
       <p>
         Soak pits, also known as soak away or leach pit, is covered, chambers
         and rings that allows water to slowly soak into the ground. Pre settled
@@ -135,3 +135,4 @@
     </div>
   </div>
 </template>
+<style scoped></style>
