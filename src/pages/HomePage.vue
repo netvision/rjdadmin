@@ -49,9 +49,18 @@ const getActRec = (act) => {
   actRec.value = actRecords.value.filter((r) => r.activity_id === act.id);
 };
 
+const convtData = (data) => {
+  const cdata = JSON.parse(data);
+  const newData = [];
+  cdata.forEach((r) => {
+    newData.push(`${r.k}: ${r.v}`);
+  });
+  return newData.join(", ");
+};
+
 const openRecModal = (rec) => {
   theRecord.value = rec;
-  theRecord.value.jsonData = JSON.parse(theRecord.value.other_data);
+  theRecord.value.jsonData = JSON.parse(rec.other_data);
   recModal.value = true;
   console.log(rec);
 };
@@ -146,7 +155,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <q-page>
+  <q-page class="container">
     <div class="flex flex-center q-pa-md">
       <q-select
         filled
@@ -161,6 +170,13 @@ onMounted(async () => {
         option-disable="inactive"
         style="min-width: 250px; max-width: 300px"
       />
+    </div>
+    <div
+      class="title2 q-py-xs"
+      v-if="village"
+      style="border-bottom: 1px solid #333"
+    >
+      {{ village.name }}
     </div>
     <div class="row q-gutter-xl">
       <div class="col-4">
@@ -178,15 +194,12 @@ onMounted(async () => {
         </q-list>
       </div>
       <div class="col">
-        <h5 class="text-h5 q-py-xs" v-if="village">
-          {{ village.name }}
-        </h5>
-        <h6 class="text-h6 q-py-xs" v-if="activity.title">
+        <div class="title2" v-if="activity.title">
           {{ activity.title
           }}<span class="q-px-md"
             ><q-btn flat @click="addRecord()" icon="add"></q-btn
           ></span>
-        </h6>
+        </div>
         <div v-if="activity.title">
           <div v-if="actRec.length > 0" class="q-pa-md">
             <q-list>
@@ -202,7 +215,12 @@ onMounted(async () => {
                     @error="imgPlaceholder"
                   />
                 </q-item-section>
-                <q-item-section>{{ rec }}</q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ rec.location }}</q-item-label>
+                  <q-item-label overline>{{
+                    convtData(rec.other_data)
+                  }}</q-item-label>
+                </q-item-section>
               </q-item>
             </q-list>
           </div>
@@ -216,7 +234,7 @@ onMounted(async () => {
       </div>
     </div>
     <q-dialog v-model="recModal">
-      <q-card class="q-pa-md" style="width: 60%">
+      <q-card class="q-pa-md" style="width: 80%">
         <h6 class="text-h6">
           <span v-if="theRecord.id">Edit</span><span v-else>Add</span> Record
         </h6>
