@@ -71,6 +71,18 @@ onMounted(async () => {
       <q-carousel-slide name="slide5" class="column no-wrap flex-center">
         <q-img src="/images/slide5.jpg" />
       </q-carousel-slide>
+      <q-carousel-slide name="slide5" class="column no-wrap flex-center">
+        <q-img src="/images/slide6.jpg" />
+      </q-carousel-slide>
+      <q-carousel-slide name="slide5" class="column no-wrap flex-center">
+        <q-img src="/images/slide7.jpg" />
+      </q-carousel-slide>
+      <q-carousel-slide name="slide5" class="column no-wrap flex-center">
+        <q-img src="/images/slide8.jpg" />
+      </q-carousel-slide>
+      <q-carousel-slide name="slide5" class="column no-wrap flex-center">
+        <q-img src="/images/slide9.jpg" />
+      </q-carousel-slide>
     </q-carousel>
   </div>
 
