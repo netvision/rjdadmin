@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { GoogleMap, Marker, InfoWindow } from "vue3-google-map";
-import { api } from "../boot/axios.js";
+import { api, apiBaseUrl } from "../boot/axios.js";
 
 const mapApi = process.env.MAP_KEY;
 const center = { lat: 28.235773, lng: 75.651802 };
@@ -203,7 +203,7 @@ onMounted(async () => {
             class="col"
           >
             <q-img
-              :src="`https://api2.dalmiatrusts.in/v/${chart}`"
+              :src="`${apiBaseUrl}/v/${chart}`"
               height="200px"
               width="80%"
             />

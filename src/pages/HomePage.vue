@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { api } from "../boot/axios";
+import { api, apiBaseUrl } from "../boot/axios";
 import { useQuasar } from "quasar";
 
 const $q = useQuasar();
@@ -211,7 +211,7 @@ onMounted(async () => {
               >
                 <q-item-section thumbnail>
                   <img
-                    :src="`https://api2.dalmiatrusts.in/activity-images/act-${rec.id}.jpg`"
+                    :src="`${apiBaseUrl}/activity-images/act-${rec.id}.jpg`"
                     @error="imgPlaceholder"
                   />
                 </q-item-section>
@@ -240,7 +240,7 @@ onMounted(async () => {
         </h6>
         <img
           v-if="theRecord.id"
-          :src="`https://api2.dalmiatrusts.in/activity-images/act-${theRecord.id}.jpg`"
+          :src="`${apiBaseUrl}/activity-images/act-${theRecord.id}.jpg`"
           @error="imgPlaceholder"
           style="width: 150px; height: auto"
         />

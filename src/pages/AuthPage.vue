@@ -11,19 +11,22 @@
           <q-input
             outlined
             class="q-mb-md"
-            type="email"
-            label="Email"
-            v-model="data.email"
+            autocomplete="username"
+            label="Username"
+            v-model.trim="data.username"
+            :rules="[(value) => !!value || 'Username is required']"
           />
           <q-input
             outlined
             class="q-mb-md"
             type="password"
+            autocomplete="current-password"
             label="Password"
             v-model="data.password"
+            :rules="[(value) => !!value || 'Password is required']"
           />
           <q-space />
-          <q-btn type="submit" color="primary" label="login" />
+          <q-btn type="submit" color="primary" label="login" :loading="loading" />
         </q-form>
       </q-card-section>
     </q-card>
@@ -31,26 +34,28 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import { auth } from "../boot/firebase";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
+import { login } from "../services/auth";
 
 const $q = useQuasar();
 const router = useRouter();
-const data = ref({});
-onAuthStateChanged(auth, (user) => {
-  if (user) router.push("/admin/home");
-});
-const signInExistingUser = () => {
-  signInWithEmailAndPassword(auth, data.value.email, data.value.password)
-    .then((userCredential) => {
-      //console.log(userCredential.user);
-      $q.notify({ message: "Sign In Success." });
-      router.push("/admin/home");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const data = ref({ username: "", password: "" });
+const loading = ref(false);
+
+const signInExistingUser = async () => {
+  loading.value = true;
+  try {
+    const admin = await login(data.value.username, data.value.password);
+    $q.notify({ type: "positive", message: "Signed in." });
+    await router.push(
+      admin.must_change_password ? "/admin/change-password" : "/admin/home"
+    );
+  } catch (error) {
+    const message = error.response?.data?.detail || "Unable to sign in.";
+    $q.notify({ type: "negative", message });
+  } finally {
+    loading.value = false;
+  }
 };
 </script>

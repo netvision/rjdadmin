@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title> RJDSS Admin Panel </q-toolbar-title>
-        <q-btn v-if="isLoggedin" @click="logOut">Logout</q-btn>
+        <q-btn v-if="authState.admin" flat @click="logOut">Logout</q-btn>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -13,27 +13,20 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { auth } from "../boot/firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useQuasar } from "quasar";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+import { authState, logout } from "../services/auth";
 
 const $q = useQuasar();
 const router = useRouter();
-const isLoggedin = ref(false);
-
-onAuthStateChanged(auth, (user) => {
-  if (user) isLoggedin.value = true;
-});
-
-const logOut = () => {
-  signOut(auth);
-  router
-    .push("/admin")
-    .then(() => {
-      $q.notify({ message: "Sign Out Success." });
-    })
-    .catch((error) => console.log("error", error));
+const logOut = async () => {
+  try {
+    await logout();
+    $q.notify({ message: "Signed out." });
+  } catch (error) {
+    $q.notify({ type: "negative", message: "Unable to sign out cleanly." });
+  } finally {
+    await router.push("/admin");
+  }
 };
 </script>

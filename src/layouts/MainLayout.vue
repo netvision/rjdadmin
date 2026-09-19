@@ -1,6 +1,8 @@
 <script setup>
+import { apiBaseUrl } from "../boot/axios";
+
 const openPdf = (file) => {
-  const url = `https://api2.dalmiatrusts.in/reports/${file}`;
+  const url = `${apiBaseUrl}/reports/${file}`;
   const link = document.createElement("a");
   link.href = url;
   link.target = "_blank";

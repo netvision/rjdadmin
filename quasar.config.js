@@ -29,7 +29,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli/boot-files
-    boot: ["firebase", "axios"],
+    boot: ["axios"],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ["app.scss"],
@@ -55,12 +55,8 @@ module.exports = configure(function (/* ctx */) {
         node: "node16",
       },
       env: {
-        API_KEY: process.env.API_KEY,
-        AUTH_DOMAIN: process.env.AUTH_DOMAIN,
-        PROJECT_ID: process.env.PROJECT_ID,
-        STORAGE_BUCKET: process.env.STORAGE_BUCKET,
-        MESSAGING_SENDER_ID: process.env.MESSAGING_SENDER_ID,
-        APP_ID: process.env.APP_ID,
+        API_BASE_URL:
+          process.env.API_BASE_URL || "https://api2.dalmiatrusts.in",
         MAP_KEY: process.env.MAP_KEY,
       },
       vueRouterMode: "hash", // available values: 'hash', 'history'

@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     resetPassword() {
-      // firebase reset password
+      // Password resets are performed by the server-side administrator CLI.
     },
   },
 };

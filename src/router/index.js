@@ -1,5 +1,4 @@
 import { route } from "quasar/wrappers";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   createRouter,
   createMemoryHistory,
@@ -7,6 +6,7 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
+import { authState, ensureSession } from "../services/auth";
 
 /*
  * If not building with SSR mode, you can
@@ -34,27 +34,26 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach((to, from, next) => {
-    const au = to.meta.requiresAuth;
-    onAuthStateChanged(
-      getAuth(),
-      (user) => {
-        if (au && !user) {
-          next("/admin/login");
-        } else next();
-      },
-      (error) => {
-        console.log(error);
-        next("/");
-      }
-    );
-    /*
-    if (au && !auth.currentUser) {
-      next("/");
-    } else {
-      next();
+  Router.beforeEach(async (to) => {
+    if (!to.path.startsWith("/admin")) return true;
+
+    try {
+      await ensureSession();
+    } catch (error) {
+      console.error("Unable to check the admin session", error);
+      if (to.meta.requiresAuth) return "/admin";
     }
-    */
+
+    const admin = authState.admin;
+    if (to.meta.requiresAuth && !admin) return "/admin";
+    if (admin?.must_change_password && to.path !== "/admin/change-password") {
+      return "/admin/change-password";
+    }
+    if (to.path === "/admin" && admin) return "/admin/home";
+    if (to.path === "/admin/change-password" && admin && !admin.must_change_password) {
+      return "/admin/home";
+    }
+    return true;
   });
   return Router;
 });

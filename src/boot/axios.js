@@ -7,7 +7,28 @@ import axios from "axios";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: "https://api2.dalmiatrusts.in" });
+const apiBaseUrl = (process.env.API_BASE_URL || "https://api2.dalmiatrusts.in").replace(
+  /\/$/,
+  ""
+);
+const api = axios.create({
+  baseURL: apiBaseUrl,
+  withCredentials: true,
+});
+
+let csrfToken = null;
+
+const setCsrfToken = (token) => {
+  csrfToken = token || null;
+};
+
+api.interceptors.request.use((config) => {
+  const method = (config.method || "get").toLowerCase();
+  if (csrfToken && !["get", "head", "options"].includes(method)) {
+    config.headers["X-CSRF-Token"] = csrfToken;
+  }
+  return config;
+});
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -21,4 +42,4 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 });
 
-export { api, axios };
+export { api, apiBaseUrl, axios, setCsrfToken };
