@@ -1,6 +1,16 @@
+<script setup>
+import { useActivityStats } from "../composables/useActivityStats.js";
+
+const { activityCount, villageCount, formatCount, loading } = useActivityStats();
+</script>
+
 <template>
   <div class="container">
     <div class="title1 text-left q-pa-md q-my-md">Activities</div>
+    <p v-if="loading" class="q-px-sm">Loading current activity totals…</p>
+    <p v-else-if="activityCount(1) === null || villageCount(1) === null" class="q-px-sm">
+      Current activity totals are temporarily unavailable.
+    </p>
     <div class="title2 text-left q-pa-sm">Rooftop Rain Water Harvesting</div>
     <div class="q-pa-sm">
       <p>
@@ -23,9 +33,10 @@
         tanks.
       </p>
 
-      <p>
-        The Sansthan has helped construct around 4477 rooftop rainwater
-        harvesting systems in 88 villages.
+      <p v-if="activityCount(1) !== null && villageCount(1) !== null">
+        The Sansthan has recorded {{ formatCount(activityCount(1)) }} rooftop
+        rainwater harvesting systems in {{ formatCount(villageCount(1)) }}
+        villages.
       </p>
     </div>
     <div class="title2 text-left q-pa-sm">
@@ -47,8 +58,11 @@
         normally of 50 to 90 feet of depths. In case of large amount of water
         availability a bore in the middle of the well use to be done to
         penetrate water directly to the ground level. Normally this penetration
-        is just above (15-20 feet) the underground water level. Until Now, the
-        sansthan has revived or developed around 128 Recharge Wells.
+        is just above (15-20 feet) the underground water level.
+      </p>
+      <p v-if="activityCount(2) !== null">
+        The Sansthan has recorded {{ formatCount(activityCount(2)) }} recharge
+        wells.
       </p>
     </div>
     <div class="title2 text-left q-pa-sm">Integrated Farming System</div>
@@ -128,9 +142,13 @@
         facility or collected impure water to the underground chamber from where
         it filters into the surrounding soil.
       </p>
-      <p>
-        The Sansthan has helped construct a total no. of 2295 Toilets and 3092
-        Soakpits in 88 villages in Chirawa Panchayat Samiti Area.
+      <p
+        v-if="activityCount(7) !== null && activityCount(6) !== null && villageCount(6, 7) !== null"
+      >
+        The Sansthan has recorded {{ formatCount(activityCount(7)) }} toilets and
+        {{ formatCount(activityCount(6)) }} soak pits in
+        {{ formatCount(villageCount(6, 7)) }} villages in Chirawa Panchayat
+        Samiti Area.
       </p>
     </div>
   </div>

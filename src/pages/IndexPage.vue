@@ -1,43 +1,56 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { GoogleMap, Marker, InfoWindow } from "vue3-google-map";
+import { computed, ref, onMounted } from "vue";
 import { api } from "../boot/axios.js";
 import { Vue3Marquee } from "vue3-marquee";
+import ActivityMap from "../components/ActivityMap.vue";
 
 const slide = ref("slide1");
-const mapApi = process.env.MAP_KEY;
-const center = { lat: 28.235773, lng: 75.651802 };
 const activities = ref([]);
 const villages = ref([]);
-const markers = ref([]);
+const villageLoaded = ref(false);
+const summaryError = ref(false);
+const mapError = ref(false);
 
-const getActName = (id) => {
-  return activities.value.filter((act) => act.id == id)[0].title;
-};
+const activityNames = computed(() =>
+  Object.fromEntries(activities.value.map((activity) => [activity.id, activity.title]))
+);
+
+const markers = computed(() =>
+  villages.value.map((village) => ({
+    position: { lat: village.latitude, lng: village.longitude },
+    title: village.name,
+    records: (village.records || []).reduce((counts, record) => {
+      counts[record.activity_id] = (counts[record.activity_id] || 0) + 1;
+      return counts;
+    }, {}),
+  }))
+);
 
 onMounted(async () => {
-  activities.value = await api
-    .get("/activities?expand=records")
-    .then((r) => r.data);
+  const [activityResult, countResult, villageResult] = await Promise.allSettled([
+    api.get("/activities"),
+    api.get("/activity-records/activity-type-counts"),
+    api.get("/villages?expand=records"),
+  ]);
 
-  villages.value = await api
-    .get("/villages?expand=records")
-    .then((r) => r.data);
+  if (activityResult.status === "fulfilled" && countResult.status === "fulfilled") {
+    const counts = Object.fromEntries(
+      countResult.value.data.map((item) => [item.activity_id, item.count])
+    );
+    activities.value = activityResult.value.data.map((activity) => ({
+      ...activity,
+      total: counts[activity.id] || 0,
+    }));
+  } else {
+    summaryError.value = true;
+  }
 
-  villages.value.forEach((v) => {
-    let records = v.records.reduce((acc, rec) => {
-      if (acc[rec.activity_id]) {
-        acc[rec.activity_id] += 1;
-      } else acc[rec.activity_id] = 1;
-      return acc;
-    }, {});
-    let mark = {
-      position: { lat: +v.latitude, lng: +v.longitude },
-      title: v.name,
-      records: records,
-    };
-    markers.value.push(mark);
-  });
+  if (villageResult.status === "fulfilled") {
+    villages.value = villageResult.value.data;
+    villageLoaded.value = true;
+  } else {
+    mapError.value = true;
+  }
 });
 </script>
 
@@ -92,8 +105,12 @@ onMounted(async () => {
         Established in the year 2004, The
         <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong>
         is an initiative by the Dalmia Group targeted at the rural development
-        of Chirawa. We are currently working with 55000 people across 88
-        villages with a vision to bring “खुशहाली” with Equity, Harmony and
+        of Chirawa.
+        <span v-if="villageLoaded">
+          The activity database currently lists
+          {{ new Intl.NumberFormat("en-IN").format(villages.length) }} villages.
+        </span>
+        Our vision is to bring “खुशहाली” with Equity, Harmony and
         Prosperity in Chirawa block of Jhunjhunu District of Shekhawati Region.
         In the last 14 years the areas of interventions were; drinking water,
         agriculture and livestock, sustainable use of natural resources, women’s
@@ -119,55 +136,23 @@ onMounted(async () => {
     </div>
     <div class="row q-gutter-sm">
       <div class="col q-pa-md">
-        <div class="title2 text-left q-pa-sm">Activities Summery</div>
-        <q-markup-table class="q-mr-md">
+        <div class="title2 text-left q-pa-sm">Activities Summary</div>
+        <p v-if="summaryError">Activity totals are temporarily unavailable.</p>
+        <q-markup-table v-else class="q-mr-md">
           <tbody>
             <tr v-for="act in activities" :key="act.id">
               <td style="font-size: 18px; padding: 10x">{{ act.title }}</td>
               <td style="font-size: 18px; padding: 10px">
-                {{ act.records.length }}
+                {{ act.total }}
               </td>
             </tr>
           </tbody>
         </q-markup-table>
       </div>
       <div class="col q-pa-md">
-        <div class="title2 text-left q-pa-sm">Our activities on Google Map</div>
-        <GoogleMap
-          :api-key="mapApi"
-          style="width: 100%; height: 350px"
-          :center="center"
-          :zoom="9"
-        >
-          <Marker
-            :options="{
-              position: center,
-              title: 'Ramkrishna Jaidayal Dalmia Seva Sansthan',
-            }"
-          />
-          <Marker
-            v-for="(mark, i) in markers"
-            :key="i"
-            :options="{
-              position: mark.position,
-              title: mark.title,
-            }"
-          >
-            <InfoWindow>
-              <h5>{{ mark.title }}</h5>
-              <div>
-                <q-markup-table class="q-ma-md">
-                  <tbody>
-                    <tr v-for="(value, key) in mark.records" :key="key">
-                      <td>{{ getActName(key) }}</td>
-                      <td>{{ value }}</td>
-                    </tr>
-                  </tbody>
-                </q-markup-table>
-              </div>
-            </InfoWindow>
-          </Marker>
-        </GoogleMap>
+        <div class="title2 text-left q-pa-sm">Our activities on the map</div>
+        <p v-if="mapError">Village locations are temporarily unavailable.</p>
+        <ActivityMap v-else :markers="markers" :activity-names="activityNames" />
       </div>
     </div>
     <div class="q-pa-md">

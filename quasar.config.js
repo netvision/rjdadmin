@@ -57,7 +57,6 @@ module.exports = configure(function (/* ctx */) {
       env: {
         API_BASE_URL:
           process.env.API_BASE_URL || "https://api2.dalmiatrusts.in",
-        MAP_KEY: process.env.MAP_KEY,
       },
       vueRouterMode: "hash", // available values: 'hash', 'history'
       // vueRouterBase,

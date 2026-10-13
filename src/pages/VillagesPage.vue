@@ -1,33 +1,33 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { GoogleMap, Marker, InfoWindow } from "vue3-google-map";
+import { computed, ref, onMounted } from "vue";
 import { api, apiBaseUrl } from "../boot/axios.js";
+import ActivityMap from "../components/ActivityMap.vue";
 
-const mapApi = process.env.MAP_KEY;
-const center = { lat: 28.235773, lng: 75.651802 };
 const activities = ref([]);
 const villages = ref([]);
 const markers = ref([]);
+const activityNames = computed(() =>
+  Object.fromEntries(activities.value.map((activity) => [activity.id, activity.title]))
+);
 
 const v_id = ref();
 const village = ref({});
 
 const getActName = (id) => {
-  return activities.value.filter((act) => act.id == id)[0].title;
+  return activityNames.value[id] || `Activity ${id}`;
 };
 
 const getProfile = async () => {
   village.value = await api
     .get(`villages/${v_id.value}?expand=geologies,demographies,croppatterns`)
     .then((r) => r.data);
-  village.value.records = markers.value.filter(
-    (m) => m.v_id === village.value.id
-  )[0].records;
+  village.value.records =
+    markers.value.find((m) => m.v_id === village.value.id)?.records || {};
 };
 
 onMounted(async () => {
   activities.value = await api
-    .get("/activities?expand=records")
+    .get("/activities")
     .then((r) => r.data);
 
   villages.value = await api
@@ -69,42 +69,13 @@ onMounted(async () => {
     />
   </div>
   <div class="container">
-    <GoogleMap
+    <ActivityMap
       v-if="!v_id"
-      :api-key="mapApi"
-      style="width: 100%; height: 650px"
-      :center="center"
+      :markers="markers"
+      :activity-names="activityNames"
       :zoom="11"
-    >
-      <Marker
-        :options="{
-          position: center,
-          title: 'Ramkrishna Jaidayal Dalmia Seva Sansthan',
-        }"
-      />
-      <Marker
-        v-for="(mark, i) in markers"
-        :key="i"
-        :options="{
-          position: mark.position,
-          title: mark.title,
-        }"
-      >
-        <InfoWindow>
-          <h5>{{ mark.title }}</h5>
-          <div>
-            <q-markup-table class="q-ma-md">
-              <tbody>
-                <tr v-for="(value, key) in mark.records" :key="key">
-                  <td>{{ getActName(key) }}</td>
-                  <td>{{ value }}</td>
-                </tr>
-              </tbody>
-            </q-markup-table>
-          </div>
-        </InfoWindow>
-      </Marker>
-    </GoogleMap>
+      height="650px"
+    />
     <div v-else>
       <div class="title1 text-left q-pa-sm">
         {{ village.name }}

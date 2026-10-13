@@ -1,18 +1,30 @@
 <script setup>
-const achievements = [
+import { computed } from "vue";
+import { useActivityStats } from "../composables/useActivityStats.js";
+
+const { activityCount, villageCount, totalVillages, formatCount } =
+  useActivityStats();
+
+const achievements = computed(() => [
   {
     activity: "Rainwater Harvesting Structures",
     content: [
-      "2869 rainwater harvesting tanks in 66 villages of Chirawa Panchayat Samiti covering 40,000 beneficiaries.",
+      activityCount(1) !== null && villageCount(1) !== null
+        ? `${formatCount(activityCount(1))} rainwater harvesting tanks in ${formatCount(villageCount(1))} villages of Chirawa Panchayat Samiti.`
+        : null,
       "A capacity to harvest more than 50 million litres annually has been created in villages and till date 411 million litres of water has been harvested.",
-      "Construction of 46 recharge wells, 3060 soak pits and 5 ponds have significantly sustained the ground water table.",
+      activityCount(2) !== null && activityCount(6) !== null && activityCount(8) !== null
+        ? `Construction of ${formatCount(activityCount(2))} recharge wells, ${formatCount(activityCount(6))} soak pits and ${formatCount(activityCount(8))} ponds has significantly sustained the ground water table.`
+        : null,
       "Safe drinking water availability has been increased for usage round the year.",
       "A capacity to recharge 201 million litres annually has been created and till date 1200 million litres have been recharged benefitting 30,000 villagers.",
       "Actively participated in Mukhymantra al Swablamban Abhiyan(MJSA) and contributed appox. Rs. 68 Rs in terms of construction of water harvesting structures since inception of the progrmme.",
       "15 ground water table measuring wells to know the monthly fluctuation in ground water.",
-      "To measure accurate rainfall at village level rain gauges in 38 villages of Chirawa Panchayat Samiti.",
+      villageCount(3) !== null
+        ? `Rain gauges support rainfall measurement in ${formatCount(villageCount(3))} villages of Chirawa Panchayat Samiti.`
+        : null,
       "The organization has a robust indepth study of ground water scenario of 35 villages of CHIRAWA by a scientific soil resistivity survey",
-    ],
+    ].filter(Boolean),
   },
   {
     activity: "Integrated Farming System to reduce ground water depletion",
@@ -33,8 +45,11 @@ const achievements = [
     activity: "Open Defecation, plastic free and totally clean village",
     content: [
       "Under total sanitation campaign, RJDSS ensures 100% toilet construction as well as their use.",
-      "Till date it has constructed 1360 toilets benefitting 9,000 residents and created 22 Open Defecation free Villages, 4 Plastic free villages and 23 totally clean villages.",
-    ],
+      activityCount(7) !== null
+        ? `The activity database records ${formatCount(activityCount(7))} toilets.`
+        : null,
+      "The campaign has also created 22 Open Defecation free villages, 4 Plastic free villages and 23 totally clean villages.",
+    ].filter(Boolean),
   },
   {
     activity: "Women Empowerment",
@@ -42,7 +57,7 @@ const achievements = [
       "Women Empowerment through formation of 39 Self-Help Groups having 501 members. They saved Rs. 20.50 lakhs and have done loaning of Rs. 43.70 lakhs.",
     ],
   },
-];
+]);
 </script>
 <template>
   <div class="container">
@@ -52,8 +67,12 @@ const achievements = [
         Established in the year 2004, The
         <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong> is an
         initiative by the Dalmia Group targeted at the rural development of
-        Chirawa. We are currently working with 55000 people across 88 villages
-        with a vision to bring “खुशहाली” with Equity, Harmony and Prosperity in
+        Chirawa.
+        <span v-if="totalVillages() !== null">
+          The activity database currently lists
+          {{ formatCount(totalVillages()) }} villages.
+        </span>
+        Our vision is to bring “खुशहाली” with Equity, Harmony and Prosperity in
         Chirawa block of Jhunjhunu District of Shekhawati Region. In the last 14
         years the areas of interventions were; drinking water, agriculture and
         livestock, sustainable use of natural resources, women’s empowerment,
