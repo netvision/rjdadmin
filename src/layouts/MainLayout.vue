@@ -1,12 +1,14 @@
 <script setup>
 import { apiBaseUrl } from "../boot/axios";
 
-const openPdf = (file) => {
-  const url = `${apiBaseUrl}/reports/${file}`;
+const openPdf = (file, local = false) => {
+  const url = local
+    ? `/reports/${encodeURIComponent(file)}`
+    : `${apiBaseUrl}/reports/${encodeURIComponent(file)}`;
   const link = document.createElement("a");
   link.href = url;
   link.target = "_blank";
-  link.download = file; // The name of the file after download
+  link.rel = "noopener noreferrer";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -120,6 +122,24 @@ const openPdf = (file) => {
               >
                 <q-item-section>
                   <q-item-label>Annual Report upto 2022-23</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual Report 2023-24.pdf', true)"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report 2023-24</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item
+                clickable
+                v-close-popup
+                @click="openPdf('Annual report 2024-25.pdf', true)"
+              >
+                <q-item-section>
+                  <q-item-label>Annual Report 2024-25</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
