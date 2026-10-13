@@ -69,8 +69,8 @@ const achievements = computed(() => [
         initiative by the Dalmia Group targeted at the rural development of
         Chirawa.
         <span v-if="totalVillages() !== null">
-          The activity database currently lists
-          {{ formatCount(totalVillages()) }} villages.
+          The Sansthan's activities span
+          {{ formatCount(totalVillages()) }} villages across Chirawa block.
         </span>
         Our vision is to bring “खुशहाली” with Equity, Harmony and Prosperity in
         Chirawa block of Jhunjhunu District of Shekhawati Region. In the last 14
