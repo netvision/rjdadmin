@@ -41,11 +41,11 @@ const reportUrl = ({ file, local }) =>
         </div>
       </div>
       <div class="site-shell site-navigation">
-        <router-link to="/" class="site-brand" aria-label="RJDSS home">
+        <router-link to="/" class="site-brand" aria-label="Ramkrishna Jaidayal Dalmia Seva Sansthan home">
           <span class="site-brand__mark"><img src="/logo.jpg" alt="" /></span>
           <span class="site-brand__text">
-            <strong>RJDSS</strong>
-            <small>Ramkrishna Jaidayal Dalmia Seva Sansthan</small>
+            <strong>Ramkrishna Jaidayal Dalmia</strong>
+            <span>Seva Sansthan</span>
           </span>
         </router-link>
 
