@@ -18,7 +18,7 @@ const achievements = computed(() => [
         : null,
       "Safe drinking water availability has been increased for usage round the year.",
       "A capacity to recharge 201 million litres annually has been created and till date 1200 million litres have been recharged benefitting 30,000 villagers.",
-      "Actively participated in Mukhymantra al Swablamban Abhiyan(MJSA) and contributed appox. Rs. 68 Rs in terms of construction of water harvesting structures since inception of the progrmme.",
+      "The Sansthan participated in the Mukhyamantri Jal Swavlamban Abhiyan (MJSA) by helping construct water harvesting structures.",
       "15 ground water table measuring wells to know the monthly fluctuation in ground water.",
       villageCount(3) !== null
         ? `Rain gauges support rainfall measurement in ${formatCount(villageCount(3))} villages of Chirawa Panchayat Samiti.`
