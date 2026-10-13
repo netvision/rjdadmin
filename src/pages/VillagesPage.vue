@@ -53,8 +53,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="title1 text-left q-pa-sm">
-    Village Profiles
+  <div class="site-shell village-heading page-heading">
+    <span class="eyebrow">Explore the region</span>
+    <h1 class="title1">Village profiles</h1>
+    <p>Every place has a story. Explore the people, landscapes, and work across Chirawa's villages.</p>
     <q-select
       v-if="villages"
       outlined
@@ -64,11 +66,12 @@ onMounted(async () => {
       option-value="id"
       map-options
       emit-value
-      label="Please select the village..."
+      label="Select a village"
+      class="village-heading__select"
       @update:model-value="getProfile"
     />
   </div>
-  <div class="container">
+  <main class="container village-page">
     <ActivityMap
       v-if="!v_id"
       :markers="markers"
@@ -193,5 +196,11 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
+
+<style scoped>
+.village-heading__select { max-width: 25rem; margin-top: 1.5rem; border-radius: .4rem; background: var(--paper); }
+.village-page { padding-bottom: 5rem; }
+.village-page > .title1 { margin-top: 2rem; }
+</style>

@@ -60,40 +60,40 @@ const achievements = computed(() => [
 ]);
 </script>
 <template>
-  <div class="container">
-    <div class="title1 text-left q-pa-sm">An Introduction</div>
-    <div class="q-pa-md text-body1 merriweather-regular text-justify">
+  <main class="container about-page">
+    <header class="page-heading">
+      <span class="eyebrow">A story of service</span>
+      <h1 class="title1">Rooted in Chirawa.<br />Growing with its people.</h1>
+      <p>Discover the people and purpose behind our work.</p>
+    </header>
+    <div class="title2 text-left q-pa-sm">Our story</div>
+    <div class="about-page__story text-body1">
       <p>
-        Established in the year 2004, The
-        <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong> is an
-        initiative by the Dalmia Group targeted at the rural development of
-        Chirawa.
+        Founded in 2004, the <strong>Ramkrishna Jaidayal Dalmia Seva Sansthan</strong>
+        is a Dalmia Group initiative working alongside rural communities in Chirawa.
         <span v-if="totalVillages() !== null">
           The Sansthan's activities span
           {{ formatCount(totalVillages()) }} villages across Chirawa block.
         </span>
-        Our vision is to bring “खुशहाली” with Equity, Harmony and Prosperity in
-        Chirawa block of Jhunjhunu District of Shekhawati Region. In the last 14
-        years the areas of interventions were; drinking water, agriculture and
-        livestock, sustainable use of natural resources, women’s empowerment,
-        youth development and addressing various other social issues.
+        Our vision is to bring “खुशहाली” through equity, harmony, and prosperity.
+        Our work spans drinking water, agriculture and livestock, natural resources,
+        women's empowerment, and youth development.
       </p>
       <p>
-        Since water is a scarce resource in the region RJDSS major interventions
-        were in the water sector, with the broad objective of ensuring safe and
-        sustainable supply of drinking water by adopting Integrated Water
-        Resource Management Approach. Water conservation and promotion of total
-        sanitation in the villages has been successfully achieved in 15 villages
-        and that was acclaimed nationally by awards (at different level by
-        different organisations).
+        Water scarcity shapes life in the region. We focus on dependable drinking
+        water through an integrated approach to water conservation, recharge,
+        and sanitation. This community-led work has earned national recognition.
       </p>
       <p>
-        The basic approach of the trust is to empower rural communities, revive
-        their traditions of water conservation and rainwater harvesting by
-        rehabilitating the older structures using modern scientific knowledge
-        and technology in order to provide drinking water security in all
-        climatic conditions.
+        We pair traditional water conservation knowledge with modern science to
+        restore existing structures and build practical solutions that communities
+        can sustain.
       </p>
+    </div>
+
+    <div class="about-page__banner">
+      <img src="/images/slide3.jpg" alt="A community learning event organized by RJDSS" loading="lazy" />
+      <span>Progress is a collective effort.</span>
     </div>
 
     <div class="title2 text-left q-pa-sm">Trustees</div>
@@ -193,7 +193,7 @@ const achievements = computed(() => [
 
     <div class="title2 text-left q-px-sm">SOME OF OUR KEY ACHIEVEMENTS</div>
     <div class="text-body1 merriweather-regular text-left q-px-sm q-mb-md">
-      <q-list class="q-mb-md" v-for="(act, i) in achievements" :key="i">
+      <q-list class="q-mb-md achievement-list" v-for="(act, i) in achievements" :key="i">
         <q-item>
           <div class="title3 merriweather-regular text-left q-px-sm">
             {{ act.activity }}
@@ -210,11 +210,10 @@ const achievements = computed(() => [
         </q-item>
       </q-list>
     </div>
-  </div>
+  </main>
 </template>
 <style lang="sass" scoped>
 .my-card
   width: 100%
-  max-width: 350px
-  margin: 10px
+  margin: 0
 </style>

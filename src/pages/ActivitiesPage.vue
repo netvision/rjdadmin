@@ -5,8 +5,16 @@ const { activityCount, villageCount, formatCount, loading } = useActivityStats()
 </script>
 
 <template>
-  <div class="container">
-    <div class="title1 text-left q-pa-md q-my-md">Activities</div>
+  <main class="container activities-page">
+    <header class="page-heading">
+      <span class="eyebrow">Our work</span>
+      <h1 class="title1">Practical action.<br />Lasting change.</h1>
+      <p>Our programmes connect water security, resilient livelihoods, and healthier villages.</p>
+    </header>
+    <div class="activities-page__visual">
+      <img src="/images/slide5.jpg" alt="A rainwater harvesting structure built in a Chirawa village" />
+      <span>Water is where it begins.</span>
+    </div>
     <p v-if="loading" class="q-px-sm">Loading current activity totals…</p>
     <p v-else-if="activityCount(1) === null || villageCount(1) === null" class="q-px-sm">
       Current activity totals are temporarily unavailable.
@@ -151,6 +159,6 @@ const { activityCount, villageCount, formatCount, loading } = useActivityStats()
         Samiti Area.
       </p>
     </div>
-  </div>
+  </main>
 </template>
 <style scoped></style>

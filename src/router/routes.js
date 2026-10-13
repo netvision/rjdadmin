@@ -1,9 +1,9 @@
 const routes = [
   {
     path: "/",
-    component: () => import("layouts/MainLayout.vue"),
+    component: () => import("layouts/PublicLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/IndexPage.vue") },
+      { path: "", component: () => import("pages/LandingPage.vue") },
       {
         path: "contact",
         component: () => import("src/pages/ContactPage.vue"),
@@ -14,7 +14,7 @@ const routes = [
       },
       {
         path: "collaborators",
-        component: () => import("src/pages/CollaboratorsPage.vue"),
+        component: () => import("src/pages/PartnersPage.vue"),
       },
       {
         path: "activities",
