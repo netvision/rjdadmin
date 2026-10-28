@@ -14,6 +14,27 @@ const center = [28.235773, 75.651802];
 const mapElement = ref(null);
 let map;
 let markerLayer;
+let streetTiles;
+let imageryTiles;
+let indiaBoundary;
+
+// Raster OSM tiles show the de facto Line of Control. Use border-free imagery
+// whenever the India outline or the Kashmir region may be visible.
+const kashmirBounds = L.latLngBounds([32.5, 71.5], [37.5, 79.5]);
+
+const updateBaseMap = () => {
+  if (!map) return;
+  const showIndiaBoundary = map.getZoom() <= 6 || map.getBounds().intersects(kashmirBounds);
+  if (showIndiaBoundary) {
+    if (map.hasLayer(streetTiles)) map.removeLayer(streetTiles);
+    if (!map.hasLayer(imageryTiles)) imageryTiles.addTo(map);
+    if (indiaBoundary && !map.hasLayer(indiaBoundary)) indiaBoundary.addTo(map);
+  } else {
+    if (map.hasLayer(imageryTiles)) map.removeLayer(imageryTiles);
+    if (indiaBoundary && map.hasLayer(indiaBoundary)) map.removeLayer(indiaBoundary);
+    if (!map.hasLayer(streetTiles)) streetTiles.addTo(map);
+  }
+};
 
 const renderMarkers = () => {
   if (!markerLayer) return;
@@ -59,11 +80,36 @@ const renderMarkers = () => {
 
 onMounted(() => {
   map = L.map(mapElement.value).setView(center, props.zoom);
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  streetTiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
+  });
+  imageryTiles = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+    maxZoom: 19,
+    attribution: 'Imagery: <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics, GIS User Community',
+  });
   markerLayer = L.layerGroup().addTo(map);
+  map.on("moveend", updateBaseMap);
+  updateBaseMap();
+  fetch(`${import.meta.env.BASE_URL}maps/india-boundary.geojson`)
+    .then((response) => {
+      if (!response.ok) throw new Error(`India boundary: HTTP ${response.status}`);
+      return response.json();
+    })
+    .then((geojson) => {
+      if (!map) return;
+      indiaBoundary = L.geoJSON(geojson, {
+        interactive: false,
+        style: { color: "#fff", weight: 5, opacity: 0.95, fill: false },
+      });
+      L.geoJSON(geojson, {
+        interactive: false,
+        style: { color: "#d66a21", weight: 2.5, opacity: 1, fill: false },
+      }).addTo(indiaBoundary);
+      map.attributionControl.addAttribution('<a href="https://surveyofindia.gov.in/pages/outline-maps-of-india">India boundary &copy; Survey of India</a>');
+      updateBaseMap();
+    })
+    .catch((error) => console.error("Could not load Survey of India boundary", error));
   renderMarkers();
 });
 
@@ -71,6 +117,7 @@ watch(() => [props.markers, props.activityNames], renderMarkers);
 
 onBeforeUnmount(() => {
   map?.remove();
+  map = undefined;
 });
 </script>
 
